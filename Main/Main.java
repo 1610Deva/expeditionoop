@@ -16,41 +16,62 @@ public class Main {
         tampilkanMenuUtama();
     }
 
+    public static List<Pengiriman> getDaftarPengiriman() {
+            return daftarPengiriman;
+        }
+
+    private static List<Wilayah> daftarWilayah = new ArrayList<>();
+
     private static void inisialisasiDataDummy() {
-        // Data Wilayah
-        Wilayah jakarta = new Wilayah("Jakarta", Arrays.asList("Kecamatan A", "Kecamatan B"));
-        Wilayah bandung = new Wilayah("Bandung", Arrays.asList("Kecamatan C", "Kecamatan D"));
-        Wilayah surabaya = new Wilayah("Surabaya", Arrays.asList("Kecamatan E", "Kecamatan F"));
+    daftarWilayah.add(new Wilayah("Jakarta"));
+    daftarWilayah.add(new Wilayah("Bandung"));
+    daftarWilayah.add(new Wilayah("Surabaya"));
+    daftarWilayah.add(new Wilayah("Madura"));
 
-        // Data Pelanggan
-        Pengirim pengirim1 = new Pengirim("Budi", "Jl. Merdeka No.1", "08123456789", "Fragile", false);
-        Penerima penerima1 = new Penerima("Andi", "Jl. Sudirman No.2", "08987654321", "Antar di pagi hari", false);
+    
+    // Contoh data dummy pengiriman:
+    Wilayah jakarta = getWilayahByName("Jakarta");
+    Wilayah bandung = getWilayahByName("Bandung");
+    Wilayah surabaya = getWilayahByName("Surabaya");
+    Wilayah madura = getWilayahByName("Madura");
 
-        // Data Tarif
-        Tarif tarifReguler = new Tarif(12000, 5000, "reguler");
-        Tarif tarifEkspres = new Tarif(15000, 7000, "ekspres");
-        Tarif tarifEkonomi = new Tarif(8000, 3000, "ekonomi");
+    
+    Pengirim pengirim1 = new Pengirim("Budi", "Jl. Merdeka", "08123", "-", false);
+    Penerima penerima1 = new Penerima("Andi", "Jl. Sudirman", "08222", "-", false);
+    Tarif tarif = new Tarif(1.5f, "reguler");
+    
+    daftarPengiriman.add(new Pengiriman(
+        "RESI001", new Date(), 1.5, "Elektronik", "reguler",
+        pengirim1, penerima1, "Belum Dibayar", "Dalam Proses",
+        tarif, jakarta, bandung
+    ));
+}
 
-        // Data Kurir - tambahkan ke Admin
-        Admin.getDaftarKurir().add(new Kurir("Joko", "KUR001", "Joko123", jakarta));
-
-
-        // Data Pengiriman
-        daftarPengiriman.add(new Pengiriman(
-            "RESI001", new Date(), 2.5, "Elektronik", "reguler",
-            pengirim1, penerima1, "Belum Dibayar", "Dalam Proses",
-            tarifReguler, jakarta, bandung, 120.5
-        ));
-
-        daftarPengiriman.add(new Pengiriman(
-            "RESI001", new Date(), 2.5, "Elektronik", "reguler",
-            pengirim1, penerima1, "Belum Dibayar", "Dalam Proses",
-            tarifEkspres, jakarta, bandung, 120.5
-        ));
-
-        // Data Kurir
-        daftarKurir.add(new Kurir("Joko", "KUR001", "Joko123", jakarta));
+    // Getter untuk daftar wilayah
+    public static List<Wilayah> getDaftarWilayah() {
+        return daftarWilayah;
     }
+
+    // Method untuk memeriksa apakah wilayah valid
+    public static boolean isWilayahValid(String namaWilayah) {
+        for (Wilayah w : daftarWilayah) {
+            if (w.getNamaWilayah().equalsIgnoreCase(namaWilayah)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Method untuk mendapatkan objek Wilayah berdasarkan nama
+    public static Wilayah getWilayahByName(String namaWilayah) {
+        for (Wilayah w : daftarWilayah) {
+            if (w.getNamaWilayah().equalsIgnoreCase(namaWilayah)) {
+                return w;
+            }
+        }
+        return null;
+    }
+
 
     private static void tampilkanMenuUtama() {
         while (true) {
@@ -89,7 +110,7 @@ public class Main {
         if (username.equals("admin") && password.equals("admin123")) {
             Admin admin = new Admin(username);
             userLogin = admin;
-            System.out.println("Login berhasil sebagai " + username);
+            System.out.println("Login berhasil sebagai Admin " + username);
             menuAdmin();
         } else {
             System.out.println("Username atau password salah!");
@@ -152,6 +173,7 @@ public class Main {
             System.out.println("\n=== MENU KURIR ===");
             System.out.println("1. Lihat Pengiriman di Wilayah Saya");
             System.out.println("2. Update Status Pengiriman");
+            System.out.println("2. Update Status Pembayaran");
             System.out.println("3. Lihat Riwayat");
             System.out.println("4. Logout");
             System.out.print("Pilih menu: ");
@@ -161,40 +183,23 @@ public class Main {
 
             switch (pilihan) {
                 case 1:
-                    lihatPengirimanWilayah(kurir.getWilayah());
+                    kurir.lihatPengirimanWilayah(getDaftarPengiriman());
                     break;
                 case 2:
                     updateStatusPengiriman(kurir);
                     break;
                 case 3:
-                    kurir.lihatRiwayat();
+                    updateStatusPembayaran(kurir);
                     break;
                 case 4:
+                    kurir.lihatRiwayat();
+                    break;
+                case 5:
                     userLogin = null;
                     return;
                 default:
                     System.out.println("Pilihan tidak valid!");
             }
-        }
-    }
-
-    private static void lihatPengirimanWilayah(Wilayah wilayah) {
-        System.out.println("\n=== PENGIRIMAN DI WILAYAH " + wilayah.getNamaWilayah() + " ===");
-        boolean found = false;
-        
-        for (Pengiriman p : daftarPengiriman) {
-            if (p.getTujuan().getNamaWilayah().equalsIgnoreCase(wilayah.getNamaWilayah())) {
-                System.out.println("ID Resi: " + p.getIdResi());
-                System.out.println("Penerima: " + p.getPenerima().getNama());
-                System.out.println("Alamat: " + p.getPenerima().getAlamat());
-                System.out.println("Status: " + p.getStatusPengiriman());
-                System.out.println("-----------------------------");
-                found = true;
-            }
-        }
-        
-        if (!found) {
-            System.out.println("Tidak ada pengiriman di wilayah ini.");
         }
     }
 
@@ -234,6 +239,44 @@ public class Main {
                 break;
             case 3:
                 kurir.updateStatus(target, "Sudah Diterima");
+                break;
+            default:
+                System.out.println("Pilihan tidak valid!");
+        }
+    }
+
+private static void updateStatusPembayaran(Kurir kurir) {
+        System.out.println("\n=== UPDATE STATUS PEMBAYARAN ===");
+        System.out.print("Masukkan ID Resi: ");
+        String resi = scanner.nextLine();
+        
+        Pengiriman target = null;
+        for (Pengiriman p : daftarPengiriman) {
+            if (p.getIdResi().equals(resi)) {
+                target = p;
+                break;
+            }
+        }
+        
+        if (target == null) {
+            System.out.println("Pengiriman tidak ditemukan!");
+            return;
+        }
+        
+        System.out.println("\nStatus saat ini: " + target.getStatusPengiriman());
+        System.out.println("1. Sudah Dibayar");
+        System.out.println("2. Belum Dibayar");
+        System.out.print("Pilih status baru: ");
+        
+        int status = scanner.nextInt();
+        scanner.nextLine(); // Clear buffer
+        
+        switch (status) {
+            case 1:
+                kurir.updateStatus(target, "Sudah Dibayar");
+                break;
+            case 2:
+                kurir.updateStatus(target, "Belum Dibayar");
                 break;
             default:
                 System.out.println("Pilihan tidak valid!");

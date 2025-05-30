@@ -1,27 +1,18 @@
 package Pengiriman;
 
 public class Tarif {
-    private float hargaPerKg;
-    private float hargaPerJarak;
+    private float berat;
     private String jenisLayanan;
 
-    public Tarif(float hargaPerKg, float hargaPerJarak, String jenisLayanan) {
-        this.hargaPerKg = hargaPerKg;
-        this.hargaPerJarak = hargaPerJarak;
+    public Tarif(float berat, String jenisLayanan) {
+        this.berat = berat;
         this.jenisLayanan = jenisLayanan;
     }
-
-    public float gethargaPerKg() {
-        return hargaPerKg;
+    public float getberat() {
+        return berat;
     }
-    public void sethargaPerKg(float hargaPerKg) {
-        this.hargaPerKg = hargaPerKg;
-    }
-    public float gethargaPerJarak() {
-        return hargaPerJarak;
-    }
-    public void sethargaPerJarak(float hargaPerJarak) {
-        this.hargaPerJarak = hargaPerJarak;
+    public void setberat(float berat) {
+        this.berat = berat;
     }
     public String getJenisLayanan() {
         return jenisLayanan;
@@ -30,15 +21,16 @@ public class Tarif {
         this.jenisLayanan = jenisLayanan;
     }
 
-    public double hitungTarif(double berat, double jarak, String jenisLayanan) {
-        if (berat <= 0 || jarak < 0) {
+    public double hitungTarif(double berat, String jenisLayanan) {
+        if (berat <= 0) {
             throw new IllegalArgumentException("Berat harus lebih dari 0 dan jarak tidak boleh negatif.");
         }
         if (jenisLayanan == null || jenisLayanan.isEmpty()) {
             throw new IllegalArgumentException("Jenis layanan tidak boleh kosong.");
         }
         
-        double tarifDasar = berat * this.hargaPerKg + jarak * this.hargaPerJarak;
+        double tarifPerKg = 8000; // Tarif dasar per kg
+        double tarifDasar = berat * tarifPerKg;
         switch (jenisLayanan.toLowerCase()) {
             case "ekspres":
                 return tarifDasar * 1.5;

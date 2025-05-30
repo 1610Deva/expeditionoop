@@ -4,10 +4,11 @@ import Pengiriman.*;
 import Pelanggan.*;
 import java.util.*;
 
+import Main.Main;
+
 public class Admin extends User {
     private String nama;
     private static List<Kurir> daftarKurir = new ArrayList<>();
-    private static List<Pengiriman> daftarPengiriman = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
 
     public Admin(String nama) {
@@ -56,6 +57,33 @@ public class Admin extends User {
         return null;
     }
 
+    public void tambahKurir() {
+        System.out.println("\n=== TAMBAH KURIR BARU ===");
+        
+        System.out.print("Nama Kurir: ");
+        String nama = scanner.nextLine();
+        System.out.print("ID Kurir: ");
+        String idKurir = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        // Input wilayah kurir dengan validasi
+        Wilayah wilayah = null;
+        while (wilayah == null) {
+            System.out.print("Wilayah: ");
+            String namaWilayah = scanner.nextLine();
+            wilayah = Main.getWilayahByName(namaWilayah);
+            if (wilayah == null) {
+                System.out.println("Wilayah tidak valid! Silakan input ulang.");
+            }
+        }
+
+        // Tambahkan kurir baru
+        Kurir kurirBaru = new Kurir(nama, idKurir, password, wilayah);
+        Admin.getDaftarKurir().add(kurirBaru);
+        System.out.println("Kurir berhasil ditambahkan!");
+    }
+
     // Method untuk menambah kurir baru
     public void kelolaKurir() {
         System.out.println("\n=== KELOLA KURIR ===");
@@ -68,23 +96,14 @@ public class Admin extends User {
 
         switch (pilihan) {
             case 1:
-                System.out.print("Masukkan nama kurir: ");
-                String nama = scanner.nextLine();
-                System.out.print("Masukkan ID kurir: ");
-                String idKurir = scanner.nextLine();
-                System.out.print("Masukkan Password kurir: ");
-                String password = scanner.nextLine();
-                System.out.print("Masukkan wilayah kerja: ");
-                String wilayah = scanner.nextLine();
-                
-                Wilayah wilayahKurir = new Wilayah(wilayah, new ArrayList<>());
-                Kurir kurirBaru = new Kurir(nama, idKurir, password, wilayahKurir);
-                daftarKurir.add(kurirBaru);
-                System.out.println("Kurir berhasil ditambahkan!");
+                tambahKurir();
                 break;
-                
             case 2:
                 System.out.println("\nDAFTAR KURIR:");
+                if (daftarKurir.isEmpty()) {
+                    System.out.println("Tidak ada kurir yang terdaftar.");
+                    return;
+                }
                 for (Kurir k : daftarKurir) {
                     System.out.println("- " + k.getNama() + " (ID: " + k.getIdKurir() + 
                                      ", Wilayah: " + k.getWilayah().getNamaWilayah() + ")");
@@ -132,7 +151,7 @@ public class Admin extends User {
         }
         
         Date awal = cal.getTime();
-        Laporan laporan = new Laporan(awal, akhir, new PengelolaPengiriman(daftarPengiriman));
+        Laporan laporan = new Laporan(awal, akhir, new PengelolaPengiriman(Main.getDaftarPengiriman()));
         System.out.println(laporan.tampilkanLaporan());
     }
 
@@ -177,27 +196,38 @@ public class Admin extends User {
             System.out.print("Jenis Barang: ");
             String jenisBarang = scanner.nextLine();
             System.out.print("Berat (kg): ");
-            double berat = scanner.nextDouble();
+            float berat = scanner.nextFloat();
             scanner.nextLine();
             System.out.print("Jenis Layanan (reguler/ekspres): ");
             String jenisLayanan = scanner.nextLine();
-            System.out.print("Jarak (km): ");
-            double jarak = scanner.nextDouble();
-            scanner.nextLine();
-            System.out.print("Wilayah Asal: ");
-            String wilayahAsal = scanner.nextLine();
-            System.out.print("Wilayah Tujuan: ");
-            String wilayahTujuan = scanner.nextLine();
-            
+            Wilayah asal = null;
+            while (asal == null) {
+                System.out.print("Wilayah Asal: ");
+                String wilayahAsal = scanner.nextLine();
+                asal = Main.getWilayahByName(wilayahAsal);
+                if (asal == null) {
+                    System.out.println("Pelayanan tidak tersedia untuk wilayah anda! Silakan input ulang.");
+                }
+            }
+
+            // Input wilayah tujuan dengan validasi
+            Wilayah tujuan = null;
+            while (tujuan == null) {
+                System.out.print("Wilayah Tujuan: ");
+                String wilayahTujuan = scanner.nextLine();
+                tujuan = Main.getWilayahByName(wilayahTujuan);
+                if (tujuan == null) {
+                    System.out.println("Pelayanan tidak tersedia untuk wilayah anda! Silakan input ulang.");
+                }
+            }
+                
             // Generate ID Resi otomatis
             String idResi = "RESI" + System.currentTimeMillis();
-            
+                
             // Buat objek-objek yang diperlukan
             Pengirim pengirim = new Pengirim(namaPengirim, alamatPengirim, kontakPengirim, catatanPengirim, false);
             Penerima penerima = new Penerima(namaPenerima, alamatPenerima, kontakPenerima, catatanPenerima, false);
-            Tarif tarif = new Tarif(10000, 5000, jenisLayanan);
-            Wilayah asal = new Wilayah(wilayahAsal, new ArrayList<>());
-            Wilayah tujuan = new Wilayah(wilayahTujuan, new ArrayList<>());
+            Tarif tarif = new Tarif(berat, jenisLayanan);
             
             // Buat pengiriman baru
             Pengiriman pengirimanBaru = new Pengiriman(
@@ -212,11 +242,10 @@ public class Admin extends User {
                 "Dalam Proses",
                 tarif,
                 asal,
-                tujuan,
-                jarak
+                tujuan
             );
             
-            daftarPengiriman.add(pengirimanBaru);
+            Main.getDaftarPengiriman().add(pengirimanBaru);
             System.out.println("\nPengiriman berhasil dibuat dengan ID: " + idResi);
             
         } catch (Exception e) {

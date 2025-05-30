@@ -38,22 +38,22 @@ public class Penerima extends Pelanggan {
         System.out.println("⭐ Ulasan dari " + this.nama + ": " + ulasan);
     }
 
-    // Implementasi wajib abstract method dari parent class
-    @Override
-    public void terimaNotifikasi(String pesan) {
-        System.out.println("📱 Notifikasi PENERIMA untuk " + this.nama + ": " + pesan);
-    }
-
-    // Override method tampilkanInfo untuk menampilkan info lengkap penerima
-    @Override
-    public void tampilkanInfo() {
-        System.out.println("=== INFORMASI PENERIMA ===");
-        System.out.println("Nama: " + nama);
-        System.out.println("Alamat: " + alamat);
-        System.out.println("No Kontak: " + noKontak);
-        System.out.println("Catatan Penerimaan: " + catatanPenerimaan);
-        System.out.println("Status Diterima: " + (isDiterima ? "Sudah Diterima" : "Belum Diterima"));
-        System.out.println("===============================");
-    }
+//    // Implementasi wajib abstract method dari parent class
+//    @Override
+//    public void terimaNotifikasi(String pesan) {
+//        System.out.println("📱 Notifikasi PENERIMA untuk " + this.nama + ": " + pesan);
+//    }
+//
+//    // Override method tampilkanInfo untuk menampilkan info lengkap penerima
+//    @Override
+//    public void tampilkanInfo() {
+//        System.out.println("=== INFORMASI PENERIMA ===");
+//        System.out.println("Nama: " + nama);
+//        System.out.println("Alamat: " + alamat);
+//        System.out.println("No Kontak: " + noKontak);
+//        System.out.println("Catatan Penerimaan: " + catatanPenerimaan);
+//        System.out.println("Status Diterima: " + (isDiterima ? "Sudah Diterima" : "Belum Diterima"));
+//        System.out.println("===============================");
+//    }
 } 
 

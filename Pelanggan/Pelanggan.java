@@ -43,17 +43,17 @@ public abstract class Pelanggan {
         this.noKontak = noKontak;
     }
 
-    // Abstract Method
-    public abstract void terimaNotifikasi(String pesan);
-
-    // Tampilkan info
-    public void tampilkanInfo(){
-        System.out.println("=== INFORMASI PELANGGAN ===");
-        System.out.println("Nama: " + nama);
-        System.out.println("Alamat: " + alamat);
-        System.out.println("No Kontak: " + noKontak);
-        System.out.println("============================");
-    }
+//    // Abstract Method
+//    public abstract void terimaNotifikasi(String pesan);
+//
+//    // Tampilkan info
+//    public void tampilkanInfo(){
+//        System.out.println("=== INFORMASI PELANGGAN ===");
+//        System.out.println("Nama: " + nama);
+//        System.out.println("Alamat: " + alamat);
+//        System.out.println("No Kontak: " + noKontak);
+//        System.out.println("============================");
+//    }
 
     // Update Kontak Method
     public void updateKontak(String kontakBaru){

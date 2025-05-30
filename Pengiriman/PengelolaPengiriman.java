@@ -74,7 +74,7 @@ public class PengelolaPengiriman {
         double totalPendapatan = 0.0;
         for (Pengiriman pengiriman : daftarPengiriman) {
             if (pengiriman.getTarif() != null) {
-                totalPendapatan += pengiriman.getTarif().hitungTarif(pengiriman.getBerat(), pengiriman.getJarakWilayah(), pengiriman.getTarif().getJenisLayanan());
+                totalPendapatan += pengiriman.getTarif().hitungTarif(pengiriman.getBerat(), pengiriman.getTarif().getJenisLayanan());
             }
         }
         return totalPendapatan;

@@ -45,16 +45,16 @@ public class Pengirim extends Pelanggan{
         System.out.println("========================");
     }
 
-    // Method untuk pembayaran ongkir
-    public void bayarOngkir(double jumlah) {
-        this.isDibayar = true;
-        System.out.println("Ongkos kirim sebesar Rp " + jumlah + " telah dibayar oleh " + this.nama);
-    }
-
-    // Implementasi wajib abstract method dari parent class
-    public void terimaNotifikasi(String pesan) {
-        System.out.println("📱 Notifikasi PENGIRIM untuk " + this.nama + ": " + pesan);
-    }
+//    // Method untuk pembayaran ongkir
+//    public void bayarOngkir(double jumlah) {
+//        this.isDibayar = true;
+//        System.out.println("Ongkos kirim sebesar Rp " + jumlah + " telah dibayar oleh " + this.nama);
+//    }
+//
+//    // Implementasi wajib abstract method dari parent class
+//    public void terimaNotifikasi(String pesan) {
+//        System.out.println("📱 Notifikasi PENGIRIM untuk " + this.nama + ": " + pesan);
+//    }
 
     // Override method tampilkanInfo untuk menampilkan info lengkap pengirim
     @Override

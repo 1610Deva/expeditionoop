@@ -16,10 +16,9 @@ public class Pengiriman {
     private Tarif tarif;
     private Wilayah asal;
     private Wilayah tujuan;
-    private double jarakWilayah;
 
     public Pengiriman(String idResi, Date tanggal, double berat, String jenisBarang, String jenisLayanan, Pengirim pengirim, 
-            Penerima penerima, String statusPembayaran, String statusPengiriman, Tarif tarif, Wilayah asal, Wilayah tujuan, double jarakWilayah) {
+            Penerima penerima, String statusPembayaran, String statusPengiriman, Tarif tarif, Wilayah asal, Wilayah tujuan) {
         this.idResi = idResi;
         this.tanggal = tanggal;
         this.berat = berat;
@@ -32,7 +31,6 @@ public class Pengiriman {
         this.tarif = tarif;
         this.asal = asal;
         this.tujuan = tujuan;
-        this.jarakWilayah = jarakWilayah;
     }
 
     // Getter & Setter
@@ -107,12 +105,6 @@ public class Pengiriman {
     }
     public void setTujuan(Wilayah tujuan) {
         this.tujuan = tujuan;
-    }
-    public double getJarakWilayah() {
-        return jarakWilayah;
-    }
-    public void setJarakWilayah(double jarakWilayah) {
-        this.jarakWilayah = jarakWilayah;
     }
 
     // Method 

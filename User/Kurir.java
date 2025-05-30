@@ -2,6 +2,7 @@ package User;
 
 import Pengiriman.Pengiriman;
 import Pengiriman.Wilayah;
+import java.util.List;
 
 public class Kurir extends User {
     private String nama;
@@ -50,8 +51,6 @@ public class Kurir extends User {
     public String getPassword() {
         return password;
     }
-    
-
     public void setWilayah(Wilayah wilayah, boolean overwrite)
     {
         if (overwrite || this.wilayah == null) {
@@ -59,9 +58,37 @@ public class Kurir extends User {
         }
     }
 
+    public void lihatPengirimanWilayah(List<Pengiriman> daftarPengiriman) {
+        System.out.println("\n=== PENGIRIMAN DI WILAYAH " + this.wilayah.getNamaWilayah() + " ===");
+        boolean found = false;
+    
+        for (Pengiriman p : daftarPengiriman) {
+        if (p.getTujuan().equals(this.wilayah)) {
+                System.out.println("ID Resi: " + p.getIdResi());
+                System.out.println("Penerima: " + p.getPenerima().getNama());
+                System.out.println("Alamat: " + p.getPenerima().getAlamat());
+                System.out.println("Status: " + p.getStatusPengiriman());
+                System.out.println("-----------------------------");
+                found = true;
+            }
+        }
+        
+        if (!found) {
+            System.out.println("Tidak ada pengiriman di wilayah ini.");
+        }
+    }
+
     public void updateStatus(Pengiriman pengiriman, String status) {
         if (pengiriman != null) {
             pengiriman.updateStatusPengiriman(status);
+            System.out.println("Kurir " + this.nama + " mengupdate status pengiriman " + 
+                            pengiriman.getIdResi() + " menjadi: " + status);
+        }
+    }
+
+    public void updateStatusBayar(Pengiriman pengiriman, String status) {
+        if (pengiriman != null) {
+            pengiriman.updateStatusPembayaran(status);
             System.out.println("Kurir " + this.nama + " mengupdate status pengiriman " + 
                             pengiriman.getIdResi() + " menjadi: " + status);
         }
