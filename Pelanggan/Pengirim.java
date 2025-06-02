@@ -56,16 +56,16 @@ public class Pengirim extends Pelanggan{
 //        System.out.println("📱 Notifikasi PENGIRIM untuk " + this.nama + ": " + pesan);
 //    }
 
-    // Override method tampilkanInfo untuk menampilkan info lengkap pengirim
-    @Override
-    public void tampilkanInfo() {
-        System.out.println("=== INFORMASI PENGIRIM ===");
-        System.out.println("Nama: " + nama);
-        System.out.println("Alamat: " + alamat);
-        System.out.println("No Kontak: " + noKontak);
-        System.out.println("Catatan Khusus: " + catatanKhusus);
-        System.out.println("Status Bayar: " + (isDibayar ? "Sudah Dibayar" : "Belum Dibayar"));
-        System.out.println("===============================");
-    }
+//    // Override method tampilkanInfo untuk menampilkan info lengkap pengirim
+//    @Override
+//    public void tampilkanInfo() {
+//        System.out.println("=== INFORMASI PENGIRIM ===");
+//        System.out.println("Nama: " + nama);
+//        System.out.println("Alamat: " + alamat);
+//        System.out.println("No Kontak: " + noKontak);
+//        System.out.println("Catatan Khusus: " + catatanKhusus);
+//        System.out.println("Status Bayar: " + (isDibayar ? "Sudah Dibayar" : "Belum Dibayar"));
+//        System.out.println("===============================");
+//    }
 
 }
