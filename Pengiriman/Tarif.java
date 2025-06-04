@@ -36,7 +36,8 @@ public class Tarif {
                 return tarifDasar * 1.5;
             case "reguler":
                 return tarifDasar * 1.2;
-            case "ekonomi":
+            case "ekonomis":
+                return tarifDasar;
             default:
                 return tarifDasar;
         }

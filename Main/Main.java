@@ -2,13 +2,11 @@ package Main;
 
 import User.*;
 import Pengiriman.*;
-import Pelanggan.*;
 import java.util.*;
 
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
     private static List<Pengiriman> daftarPengiriman = new ArrayList<>();
-    private static List<Kurir> daftarKurir = new ArrayList<>();
     private static User userLogin = null;
 
     // ANSI Color Codes - Warna yang lebih soft dan professional
@@ -31,7 +29,6 @@ public class Main {
     public static final String BG_LIGHT_BLUE = "\033[104m";
 
     public static void main(String[] args) {
-        inisialisasiDataDummy();
         tampilkanSampleCredentials();
         tampilkanWelcome();
         tampilkanMenuUtama();
@@ -95,7 +92,7 @@ public class Main {
     private static void clearScreen() {
         System.out.print("\033[2J\033[H");
         System.out.flush();
-    }
+    } 
 
     private static void printLine(int length, String color) {
         System.out.print(color);
@@ -138,52 +135,9 @@ public class Main {
         }
     }
 
-    private static void inisialisasiDataDummy() {
-        daftarWilayah.add(new Wilayah("Jakarta"));
-        daftarWilayah.add(new Wilayah("Bandung"));
-        daftarWilayah.add(new Wilayah("Surabaya"));
-        daftarWilayah.add(new Wilayah("Madura"));
-
-        Wilayah jakarta = getWilayahByName("Jakarta");
-        Wilayah bandung = getWilayahByName("Bandung");
-
-        Kurir kurir1 = new Kurir("KUR001", "Ahmad Kurniawan", "pass123", jakarta);
-        Admin.getDaftarKurir().add(kurir1);
-        daftarKurir.add(kurir1);
-
-        Pengirim pengirim1 = new Pengirim("Budi Santoso", "Jl. Merdeka No. 45", "08123456789", "Barang fragile", false);
-        Penerima penerima1 = new Penerima("Andi Prasetyo", "Jl. Sudirman No. 123", "08987654321", "Terima di kantor", false);
-        Tarif tarif = new Tarif(1.5f, "reguler");
-
-        daftarPengiriman.add(new Pengiriman(
-                "EXP001", new Date(), 1.5, "Elektronik", "reguler",
-                pengirim1, penerima1, "Belum Dibayar", "Dalam Proses",
-                tarif, jakarta, bandung
-        ));
-
-
-    }
 
     public static List<Wilayah> getDaftarWilayah() {
         return daftarWilayah;
-    }
-
-    public static boolean isWilayahValid(String namaWilayah) {
-        for (Wilayah w : daftarWilayah) {
-            if (w.getNamaWilayah().equalsIgnoreCase(namaWilayah)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static Wilayah getWilayahByName(String namaWilayah) {
-        for (Wilayah w : daftarWilayah) {
-            if (w.getNamaWilayah().equalsIgnoreCase(namaWilayah)) {
-                return w;
-            }
-        }
-        return null;
     }
 
     private static void tampilkanMenuUtama() {
@@ -205,10 +159,11 @@ public class Main {
             printLine(68, GRAY);
             System.out.print("  " + YELLOW + "Pilihan Anda [1-3]: " + RESET);
 
+                   String input = scanner.nextLine();
+        
             try {
-                int pilihan = scanner.nextInt();
-                scanner.nextLine();
-
+                int pilihan = Integer.parseInt(input);
+                
                 switch (pilihan) {
                     case 1:
                         loginAdmin();
@@ -220,11 +175,10 @@ public class Main {
                         tampilkanPesanKeluar();
                         System.exit(0);
                     default:
-                        showMessage("Pilihan tidak valid! Gunakan angka 1-3.", "error");
+                        showMessage("Pilihan harus antara 1-3! Silakan coba lagi.", "error");
                 }
-            } catch (InputMismatchException e) {
-                showMessage("Input tidak valid! Masukkan angka saja.", "error");
-                scanner.nextLine();
+            } catch (NumberFormatException e) {
+                showMessage("Input harus berupa angka (1-3)! Silakan coba lagi.", "error");
             }
         }
     }
@@ -300,21 +254,6 @@ public class Main {
             }
         }
 
-        if (idKurir.equals("KUR001") && password.equals("pass123")) {
-            Wilayah jakarta = getWilayahByName("Jakarta");
-            if (jakarta == null) {
-                jakarta = new Wilayah("Jakarta");
-                daftarWilayah.add(jakarta);
-            }
-            Kurir kurir = new Kurir("KUR001", "Ahmad Kurniawan", "pass123", jakarta);
-            Admin.getDaftarKurir().add(kurir);
-            daftarKurir.add(kurir);
-            userLogin = kurir;
-            showMessage("Login berhasil! Selamat datang, " + kurir.getNama(), "success");
-            menuKurir();
-            return;
-        }
-
         showMessage("ID Kurir atau password salah!", "error");
     }
 
@@ -337,10 +276,11 @@ public class Main {
             printLine(68, GRAY);
             System.out.print("  " + YELLOW + "Pilihan Anda [1-4]: " + RESET);
 
+            String input = scanner.nextLine();
+        
             try {
-                int pilihan = scanner.nextInt();
-                scanner.nextLine();
-
+                int pilihan = Integer.parseInt(input);
+                
                 switch (pilihan) {
                     case 1:
                         admin.kelolaKurir();
@@ -359,11 +299,10 @@ public class Main {
                         userLogin = null;
                         return;
                     default:
-                        showMessage("Pilihan tidak valid! Gunakan angka 1-4.", "error");
+                        showMessage("Pilihan harus antara 1-4! Silakan coba lagi.", "error");
                 }
-            } catch (InputMismatchException e) {
-                showMessage("Input tidak valid! Masukkan angka saja.", "error");
-                scanner.nextLine();
+            } catch (NumberFormatException e) {
+                showMessage("Input harus berupa angka (1-4)! Silakan coba lagi.", "error");
             }
         }
     }
@@ -375,7 +314,7 @@ public class Main {
             clearScreen();
             System.out.println();
             System.out.println(GREEN + BOLD + "  🚚 DASHBOARD KURIR" + RESET);
-            System.out.println("     " + GRAY + "Halo, " + kurir.getNama() + " | Wilayah: " + kurir.getWilayah().getNamaWilayah() + RESET);
+            System.out.println("     " + GRAY + "Halo, " + kurir.getNama() + " | Wilayah: " + kurir.getWilayah().getKelurahan() + RESET);
             printLine(68, GRAY);
             System.out.println();
 
@@ -389,15 +328,16 @@ public class Main {
             printLine(68, GRAY);
             System.out.print("  " + YELLOW + "Pilihan Anda [1-5]: " + RESET);
 
+            String input = scanner.nextLine();
+        
             try {
-                int pilihan = scanner.nextInt();
-                scanner.nextLine();
-
+                int pilihan = Integer.parseInt(input);
+                
                 switch (pilihan) {
                     case 1:
                         clearScreen();
                         System.out.println();
-                        System.out.println(CYAN + BOLD + "  📋 PENGIRIMAN DI WILAYAH " + kurir.getWilayah().getNamaWilayah().toUpperCase() + RESET);
+                        System.out.println(CYAN + BOLD + "  📋 PENGIRIMAN DI WILAYAH " + kurir.getWilayah().getKelurahan().toUpperCase() + RESET);
                         printLine(68, GRAY);
                         kurir.lihatPengirimanWilayah(getDaftarPengiriman());
                         pauseScreen();
@@ -418,11 +358,10 @@ public class Main {
                         userLogin = null;
                         return;
                     default:
-                        showMessage("Pilihan tidak valid! Gunakan angka 1-5.", "error");
+                        showMessage("Pilihan harus antara 1-5! Silakan coba lagi.", "error");
                 }
-            } catch (InputMismatchException e) {
-                showMessage("Input tidak valid! Masukkan angka saja.", "error");
-                scanner.nextLine();
+            } catch (NumberFormatException e) {
+                showMessage("Input harus berupa angka (1-5)! Silakan coba lagi.", "error");
             }
         }
     }
@@ -467,8 +406,9 @@ public class Main {
         printLine(68, GRAY);
         System.out.print("  " + YELLOW + "Pilih status baru [1-3]: " + RESET);
 
+        String input = scanner.nextLine();
         try {
-            int status = scanner.nextInt();
+            int status = Integer.parseInt(input);
             scanner.nextLine();
 
             String statusBaru = "";
@@ -529,8 +469,9 @@ public class Main {
         printLine(68, GRAY);
         System.out.print("  " + YELLOW + "Pilih status baru [1-2]: " + RESET);
 
+        String input = scanner.nextLine();
         try {
-            int status = scanner.nextInt();
+            int status = Integer.parseInt(input);
             scanner.nextLine();
 
             String statusBaru = "";

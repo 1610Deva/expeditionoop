@@ -56,7 +56,7 @@ public class PengelolaPengiriman {
     public List<Pengiriman> filterByWilayah(String wilayah) {
         List<Pengiriman> hasil = new ArrayList<>();
         for (Pengiriman pengiriman : daftarPengiriman) {
-            if (pengiriman.getAsal().getNamaWilayah().equals(wilayah) || pengiriman.getTujuan().getNamaWilayah().equals(wilayah)) {
+            if (pengiriman.getAsal().equals(wilayah) || pengiriman.getTujuan().equals(wilayah)) {
                 hasil.add(pengiriman);
             }
         }

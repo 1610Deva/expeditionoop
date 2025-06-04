@@ -56,9 +56,13 @@ public class Laporan {
             laporan.append("Tanggal: ").append(p.getTanggal()).append("\n");
             laporan.append("Pengirim: ").append(p.getPengirim().getNama()).append("\n");
             laporan.append("Penerima: ").append(p.getPenerima().getNama()).append("\n");
-            laporan.append("Asal: ").append(p.getAsal().getNamaWilayah()).append("\n");
-            laporan.append("Tujuan: ").append(p.getTujuan().getNamaWilayah()).append("\n");
-            laporan.append("Status: ").append(p.getStatusPengiriman()).append("\n");
+            laporan.append("Berat: ").append(p.getBerat()).append(" kg\n");
+            laporan.append("Jenis Layanan: ").append(p.getJenisLayanan()).append("\n");
+            laporan.append("Tarif: Rp ").append(p.getTarif().hitungTarif(p.getBerat(),p.getJenisLayanan())).append("\n");
+            laporan.append("Asal: ").append(p.getAsal()).append("\n");
+            laporan.append("Tujuan: ").append(p.getTujuan().getKota() + ", " + p.getTujuan().getKecamatan() + ", " + p.getTujuan().getKelurahan()) .append("\n");
+            laporan.append("Status Pengiriman: ").append(p.getStatusPengiriman()).append("\n");
+            laporan.append("Status Pembayaran: ").append(p.getStatusPembayaran()).append("\n");
             laporan.append("----------------------------\n");
         }
         

@@ -14,11 +14,11 @@ public class Pengiriman {
     private String statusPembayaran;
     private String statusPengiriman;
     private Tarif tarif;
-    private Wilayah asal;
+    private String asal;
     private Wilayah tujuan;
 
     public Pengiriman(String idResi, Date tanggal, double berat, String jenisBarang, String jenisLayanan, Pengirim pengirim, 
-            Penerima penerima, String statusPembayaran, String statusPengiriman, Tarif tarif, Wilayah asal, Wilayah tujuan) {
+            Penerima penerima, String statusPembayaran, String statusPengiriman, Tarif tarif, String asal, Wilayah tujuan) {
         this.idResi = idResi;
         this.tanggal = tanggal;
         this.berat = berat;
@@ -94,10 +94,10 @@ public class Pengiriman {
     public void setTarif(Tarif tarif) {
         this.tarif = tarif;
     }
-    public Wilayah getAsal() {
+    public String getAsal() {
         return asal;
     }
-    public void setAsal(Wilayah asal) {
+    public void setAsal(String asal) {
         this.asal = asal;
     }
     public Wilayah getTujuan() {

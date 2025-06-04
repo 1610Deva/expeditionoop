@@ -69,14 +69,19 @@ public class Kurir extends User {
     }
 
     public void lihatPengirimanWilayah(List<Pengiriman> daftarPengiriman) {
-        System.out.println("\n=== PENGIRIMAN DI WILAYAH " + this.wilayah.getNamaWilayah() + " ===");
+        System.out.println("\n=== PENGIRIMAN DI WILAYAH " + this.wilayah.getKelurahan() + " ===");
         boolean found = false;
     
         for (Pengiriman p : daftarPengiriman) {
-        if (p.getTujuan().equals(this.wilayah)) {
+            if (p.getTujuan().getKota().equalsIgnoreCase(this.wilayah.getKota()) 
+                && p.getTujuan().getKecamatan().equalsIgnoreCase(this.wilayah.getKecamatan())
+                && p.getTujuan().getKelurahan().equalsIgnoreCase(this.wilayah.getKelurahan())) {
+                
+    
                 System.out.println("ID Resi: " + p.getIdResi());
                 System.out.println("Penerima: " + p.getPenerima().getNama());
-                System.out.println("Alamat: " + p.getPenerima().getAlamat());
+                System.out.println("Alamat: " + p.getTujuan().getKota() + ", " +
+                                   p.getTujuan().getKecamatan() + ", " + p.getTujuan().getKelurahan());
                 System.out.println("Status: " + p.getStatusPengiriman());
                 System.out.println("-----------------------------");
                 found = true;
@@ -125,7 +130,7 @@ public class Kurir extends User {
     public void lihatRiwayat(List<Pengiriman> daftarPengiriman) {
         System.out.println("\n" + "=".repeat(60));
         System.out.println("           RIWAYAT LENGKAP KURIR " + this.nama.toUpperCase());
-        System.out.println("                  Wilayah: " + this.wilayah.getNamaWilayah());
+        System.out.println("                  Wilayah: " + this.wilayah.getKelurahan());
         System.out.println("=".repeat(60));
 
         // 1. Tampilkan riwayat aktivitas kurir
@@ -146,7 +151,7 @@ public class Kurir extends User {
     public void lihatRiwayat() {
         System.out.println("\n" + "=".repeat(50));
         System.out.println("        RIWAYAT KURIR " + this.nama.toUpperCase());
-        System.out.println("           Wilayah: " + this.wilayah.getNamaWilayah());
+        System.out.println("           Wilayah: " + this.wilayah.getKelurahan());
         System.out.println("=".repeat(50));
 
         // Tampilkan riwayat aktivitas
@@ -193,7 +198,9 @@ public class Kurir extends User {
         int dalamPengantaran = 0;
 
         for (Pengiriman p : daftarPengiriman) {
-            if (p.getTujuan().equals(this.wilayah)) {
+            if (p.getTujuan().getKota().equalsIgnoreCase(this.wilayah.getKota()) 
+                && p.getTujuan().getKecamatan().equalsIgnoreCase(this.wilayah.getKecamatan())
+                && p.getTujuan().getKelurahan().equalsIgnoreCase(this.wilayah.getKelurahan())) {
                 totalPengiriman++;
 
                 String status = p.getStatusPengiriman();
@@ -230,7 +237,10 @@ public class Kurir extends User {
         int counter = 1;
 
         for (Pengiriman p : daftarPengiriman) {
-            if (p.getTujuan().equals(this.wilayah) && p.isSudahDiterima()) {
+            if (p.getTujuan().getKota().equalsIgnoreCase(this.wilayah.getKota()) 
+                && p.getTujuan().getKecamatan().equalsIgnoreCase(this.wilayah.getKecamatan())
+                && p.getTujuan().getKelurahan().equalsIgnoreCase(this.wilayah.getKelurahan())) {
+                
                 System.out.println("   " + counter + ". ID Resi: " + p.getIdResi());
                 System.out.println("      Penerima: " + p.getPenerima().getNama());
                 System.out.println("      Tanggal: " + formatDate(p.getTanggal()));
@@ -283,13 +293,15 @@ public class Kurir extends User {
         System.out.println("\n" + "=".repeat(60));
         System.out.println("    RIWAYAT KURIR " + this.nama.toUpperCase() + " PERIODE TERTENTU");
         System.out.println("    Periode: " + formatDate(tanggalAwal) + " - " + formatDate(tanggalAkhir));
-        System.out.println("    Wilayah: " + this.wilayah.getNamaWilayah());
+        System.out.println("    Wilayah: " + this.wilayah.getKelurahan());
         System.out.println("=".repeat(60));
 
         // Filter pengiriman berdasarkan periode
         List<Pengiriman> pengirimanPeriode = new ArrayList<>();
         for (Pengiriman p : daftarPengiriman) {
-            if (p.getTujuan().equals(this.wilayah) &&
+            if (p.getTujuan().getKota().equalsIgnoreCase(this.wilayah.getKota()) 
+                && p.getTujuan().getKecamatan().equalsIgnoreCase(this.wilayah.getKecamatan())
+                && p.getTujuan().getKelurahan().equalsIgnoreCase(this.wilayah.getKelurahan()) &&
                     p.getTanggal().compareTo(tanggalAwal) >= 0 &&
                     p.getTanggal().compareTo(tanggalAkhir) <= 0) {
                 pengirimanPeriode.add(p);
@@ -392,13 +404,15 @@ public class Kurir extends User {
         System.out.println("\n" + "=".repeat(60));
         System.out.println("    RIWAYAT " + tipePeriode.toUpperCase() + " KURIR " + this.nama.toUpperCase());
         System.out.println("    Periode: " + judulPeriode);
-        System.out.println("    Wilayah: " + this.wilayah.getNamaWilayah());
+        System.out.println("    Wilayah: " + this.wilayah.getKelurahan());
         System.out.println("=".repeat(60));
 
         // Filter deliveries for the period
         List<Pengiriman> pengirimanPeriode = new ArrayList<>();
         for (Pengiriman p : daftarPengiriman) {
-            if (p.getTujuan().equals(this.wilayah) &&
+            if (p.getTujuan().getKota().equalsIgnoreCase(this.wilayah.getKota()) 
+                && p.getTujuan().getKecamatan().equalsIgnoreCase(this.wilayah.getKecamatan())
+                && p.getTujuan().getKelurahan().equalsIgnoreCase(this.wilayah.getKelurahan()) &&
                     p.getTanggal().compareTo(tanggalAwal) >= 0 &&
                     p.getTanggal().compareTo(tanggalAkhir) <= 0) {
                 pengirimanPeriode.add(p);
@@ -435,7 +449,8 @@ public class Kurir extends User {
 
             System.out.println("   " + count + ". ID Resi: " + p.getIdResi());
             System.out.println("      Penerima: " + p.getPenerima().getNama());
-            System.out.println("      Alamat: " + p.getPenerima().getAlamat());
+            System.out.println("      Alamat: " + p.getTujuan().getKota() + ", " +
+                               p.getTujuan().getKecamatan() + ", " + p.getTujuan().getKelurahan());
             System.out.println("      Waktu: " + dateFormat.format(p.getTanggal()));
             System.out.println("      Status: " + p.getStatusPengiriman());
             System.out.println("      Pembayaran: " + p.getStatusPembayaran());
