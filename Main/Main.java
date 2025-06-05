@@ -22,11 +22,28 @@ public class Main {
     public static final String PURPLE = "\033[35m";
     public static final String CYAN = "\033[36m";
     public static final String WHITE = "\033[37m";
-    public static final String GRAY = "\033[90m";
+    public static final String GRAY = "\033[90;1m";
 
     // Background Colors (subtle)
     public static final String BG_LIGHT_GRAY = "\033[100m";
     public static final String BG_LIGHT_BLUE = "\033[104m";
+
+    private static String formatStatus(String status) {
+        switch (status) {
+            case "Dalam Proses":
+                return YELLOW + "⏳ " + status + RESET;
+            case "Dalam Pengantaran":
+                return BLUE + "🚚 " + status + RESET;
+            case "Sudah Diterima":
+                return GREEN + "✓ " + status + RESET;
+            case "Sudah Dibayar":
+                return GREEN + "💰 " + status + RESET;
+            case "Belum Dibayar":
+                return RED + "💸 " + status + RESET;
+            default:
+                return status;
+        }
+    }
 
     public static void main(String[] args) {
         tampilkanSampleCredentials();
@@ -36,24 +53,49 @@ public class Main {
 
     private static void tampilkanSampleCredentials() {
         clearScreen();
-        System.out.println(CYAN + BOLD + " ┌─────────────────────────────────────────────────────┐");
-        System.out.println(" │                                                     │");
-        System.out.println(" │              👤  SAMPLE CREDENTIALS  👤             │");
-        System.out.println(" │                                                     │");
-        System.out.println(" │   " + BLUE + "[ADMIN]" + CYAN + "                                          │");
-        System.out.println(" │   Username: " + RESET + "admin" + CYAN + "                                    │");
-        System.out.println(" │   Password: " + RESET + "admin123" + CYAN + "                                 │");
-        System.out.println(" │                                                     │");
-        System.out.println(" │   " + GREEN + "[KURIR]" + CYAN + "                                           │");
-        System.out.println(" │   ID: " + RESET + "KUR001" + CYAN + "                                      │");
-        System.out.println(" │   Password: " + RESET + "pass123" + CYAN + "                                 │");
-        System.out.println(" │   Wilayah: " + RESET + "Jakarta" + CYAN + "                                  │");
-        System.out.println(" │                                                     │");
-        System.out.println(" └─────────────────────────────────────────────────────┘" + RESET);
-
-        System.out.println(GRAY + " ℹ Gunakan kredensial di atas untuk login ke sistem." + RESET);
         System.out.println();
-        System.out.print(DIM + " Tekan ENTER untuk melanjutkan..." + RESET);
+        System.out.println(BOLD + BLUE + "                  🔑 KREDENSIAL LOGIN SISTEM" + RESET);
+        System.out.println("                    PT SOLUSI KIRIM INDONESIA" + RESET);
+        printLine(78, WHITE);
+        System.out.println();
+
+        // Admin section - style yang konsisten dengan menu lainnya
+        System.out.println("    " + BLUE + BOLD + "👨‍💼 ADMINISTRATOR" + RESET);
+        System.out.println("    " + BLUE + "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" + RESET);
+        System.out.println();
+        System.out.println("       👤 Username  : " + GREEN + BOLD + "admin" + RESET);
+        System.out.println("       🔑 Password  : " + GREEN + BOLD + "admin123" + RESET);
+        System.out.println();
+        System.out.println("       " + WHITE + "✓ Kelola sistem, kurir, dan buat laporan" + RESET);
+        System.out.println("       " + WHITE + "✓ Akses penuh dashboard administrator" + RESET);
+        System.out.println("       " + WHITE + "✓ Buat dan kelola pengiriman" + RESET);
+        System.out.println();
+        System.out.println("    " + BLUE + "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" + RESET);
+        System.out.println();
+
+        // Info section
+        System.out.println("    " + PURPLE + BOLD + "📋 INFORMASI SISTEM" + RESET);
+        System.out.println("    " + PURPLE + "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" + RESET);
+        System.out.println();
+        System.out.println("       🏢 Kantor Pusat : Jakarta Selatan");
+        System.out.println("       📞 Hotline      : (021) 1234-5678");
+        System.out.println("       📧 Support      : support@solusikirm.com");
+        System.out.println("       🌐 Website      : www.solusikirm.com");
+        System.out.println();
+
+        // Security notice
+        System.out.println("    " + YELLOW + "⚠️  PENTING:" + RESET);
+        System.out.println("        • Gunakan kredensial sesuai dengan peran Anda");
+        System.out.println("        • Jaga kerahasiaan password untuk keamanan sistem");
+        System.out.println("        • Logout setelah selesai menggunakan sistem");
+        System.out.println();
+
+        printLine(78, WHITE);
+        System.out.println("     " + CYAN + "💡 TIP:" + RESET + " Data kurir akan ditambahkan melalui menu admin");
+        System.out.println("         " + GRAY + "Setiap kurir memiliki wilayah kerja masing-masing" + RESET);
+        System.out.println();
+        
+        System.out.print(DIM + "  Tekan ENTER untuk melanjutkan..." + RESET);
         scanner.nextLine();
     }
 
@@ -66,28 +108,79 @@ public class Main {
     private static void tampilkanWelcome() {
         // Header dengan logo sederhana
         System.out.println(CYAN + BOLD + " ┌─────────────────────────────────────────────────────┐");
-        System.out.println(" │                                                     │");
-        System.out.println(" │        🚚 E X P E D I T I O N   S Y S T E M 📦     │");
-        System.out.println(" │                                                     │");
-        System.out.println(" │             Sistem Manajemen Pengiriman Paket v1.0  │");
-        System.out.println(" │                                                     │");
-        System.out.println(" └─────────────────────────────────────────────────────┘" + RESET);
+    System.out.println(" │                                                     │");
+    System.out.println(BOLD + " │           🚚 SISTEM EKSPEDISI TERPADU 📦            │"); // Diperbaiki dari |
+    System.out.println(" │                                                     │");
+    System.out.println(" │         Sistem Manajemen Pengiriman Paket v1.0      │");
+    System.out.println(" │                                                     │");
+    System.out.println(" └─────────────────────────────────────────────────────┘" + RESET);
 
-        System.out.println(GRAY + " Loading sistem" + RESET);
-        for (int i = 0; i < 3; i++) {
-            try {
-                Thread.sleep(400);
-                System.out.print(".");
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+        // System.out.println(GRAY + " Loading sistem" + RESET);
+        // for (int i = 0; i < 3; i++) {
+        //     try {
+        //         Thread.sleep(400);
+        //         System.out.print(".");
+        //     } catch (InterruptedException e) {
+        //         Thread.currentThread().interrupt();
+        //     }
+        // }
+
+        // Loading animation dengan progress bar
+    System.out.println(GRAY + "    🔄 Memuat sistem..." + RESET);
+    System.out.print("    [");
+    
+    
+
+    for (int i = 0; i < 50; i++) {
+        try {
+            Thread.sleep(50);
+            if (i < 12) {
+                System.out.print(YELLOW + "█" + RESET);
+            } else if (i < 25) {
+                System.out.print(YELLOW + "█" + RESET);
+            } else if (i < 37) {
+                System.out.print(YELLOW + "█" + RESET);
+            } else {
+                System.out.print(YELLOW + "█" + RESET);
             }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
+    }
+    
+    System.out.println("] " + GREEN + BOLD + "100% ✓ SIAP!" + RESET);
+    System.out.println();
+    
+    // Welcome message dengan efek typing
+    String[] messages = {
+        "    🎯 Sistem siap digunakan!",
+        "    📦 Kelola pengiriman dengan mudah",
+        "    🚚 Tracking real-time tersedia",
+        "    💼 Dashboard terintegrasi"
+    };
+    
+    for (String msg : messages) {
+        typeWriter(msg, 30);
+        System.out.println();
+    }
 
-        System.out.println(" " + GREEN + "✓" + RESET);
+    // Method baru untuk efek typing
+
         System.out.println();
         System.out.print(DIM + "Tekan ENTER untuk melanjutkan..." + RESET);
         scanner.nextLine();
     }
+
+    private static void typeWriter(String text, int delay) {
+    for (char c : text.toCharArray()) {
+        System.out.print(c);
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
 
     private static void clearScreen() {
         System.out.print("\033[2J\033[H");
@@ -144,9 +237,11 @@ public class Main {
         while (true) {
             clearScreen();
 
-            // Header
+            // Header dengan judul di tengah
             System.out.println();
-            System.out.println(CYAN + BOLD + "  📋 MENU UTAMA" + RESET);
+            System.out.println();
+            System.out.println(CYAN + BOLD + "                          📋 MENU UTAMA" + RESET);
+            System.out.println("                   🚚 PT SOLUSI KIRIM INDONESIA 📦" + RESET);
             printLine(68, GRAY);
             System.out.println();
 
@@ -157,7 +252,8 @@ public class Main {
 
             System.out.println();
             printLine(68, GRAY);
-            System.out.print("  " + YELLOW + "Pilihan Anda [1-3]: " + RESET);
+            System.out.print("  " + YELLOW + "⚡ Pilihan Anda [1-3]: " + RESET);
+
 
                    String input = scanner.nextLine();
         
@@ -186,7 +282,8 @@ public class Main {
     private static void tampilkanPesanKeluar() {
         clearScreen();
         System.out.println();
-        System.out.println(PURPLE + BOLD + "  👋 TERIMA KASIH!" + RESET);
+        System.out.println(PURPLE + BOLD + "                    👋 TERIMA KASIH!" + RESET);
+        System.out.println(GRAY + "                 PT SOLUSI KIRIM INDONESIA" + RESET);
         printLine(68, GRAY);
         System.out.println();
         System.out.println("     Terima kasih telah menggunakan Expedition System");
@@ -210,7 +307,8 @@ public class Main {
     private static void loginAdmin() {
         clearScreen();
         System.out.println();
-        System.out.println(BLUE + BOLD + "  🔐 LOGIN ADMINISTRATOR" + RESET);
+        System.out.println(BLUE + BOLD + "                       🔐 LOGIN ADMINISTRATOR" + RESET);
+        System.out.println("                   🚚 PT SOLUSI KIRIM INDONESIA 📦" + RESET);
         printLine(68, GRAY);
         System.out.println();
 
@@ -233,7 +331,8 @@ public class Main {
     private static void loginKurir() {
         clearScreen();
         System.out.println();
-        System.out.println(GREEN + BOLD + "  🚚 LOGIN KURIR" + RESET);
+        System.out.println(GREEN + BOLD + "                           🚚 LOGIN KURIR" + RESET);
+        System.out.println("                   🚚 PT SOLUSI KIRIM INDONESIA 📦" + RESET);
         printLine(68, GRAY);
         System.out.println();
 
@@ -263,7 +362,8 @@ public class Main {
         while (true) {
             clearScreen();
             System.out.println();
-            System.out.println(BLUE + BOLD + "  👨‍💼 DASHBOARD ADMINISTRATOR" + RESET);
+            System.out.println(BLUE + BOLD + "                     💼 DASHBOARD ADMINISTRATOR" + RESET);
+            System.out.println("                   🚚 PT SOLUSI KIRIM INDONESIA 📦" + RESET);
             printLine(68, GRAY);
             System.out.println();
 
@@ -274,7 +374,7 @@ public class Main {
 
             System.out.println();
             printLine(68, GRAY);
-            System.out.print("  " + YELLOW + "Pilihan Anda [1-4]: " + RESET);
+            System.out.print("  " + YELLOW + "⚡ Pilihan Anda [1-4]: " + RESET);
 
             String input = scanner.nextLine();
         
@@ -313,8 +413,9 @@ public class Main {
         while (true) {
             clearScreen();
             System.out.println();
-            System.out.println(GREEN + BOLD + "  🚚 DASHBOARD KURIR" + RESET);
-            System.out.println("     " + GRAY + "Halo, " + kurir.getNama() + " | Wilayah: " + kurir.getWilayah().getKelurahan() + RESET);
+            System.out.println(GREEN + BOLD + "                       🚚 DASHBOARD KURIR" + RESET);
+            System.out.println("                   🚚 PT SOLUSI KIRIM INDONESIA 📦" + RESET);
+            System.out.println("            " + GRAY + "Halo, " + kurir.getNama() + " | Wilayah: " + kurir.getWilayah().getKelurahan() + RESET);
             printLine(68, GRAY);
             System.out.println();
 
@@ -326,7 +427,7 @@ public class Main {
 
             System.out.println();
             printLine(68, GRAY);
-            System.out.print("  " + YELLOW + "Pilihan Anda [1-5]: " + RESET);
+            System.out.print("  " + YELLOW + "⚡ Pilihan Anda [1-5]: " + RESET);
 
             String input = scanner.nextLine();
         
