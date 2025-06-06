@@ -1,4 +1,4 @@
-# 🚚 EXPEDITIONOOP 🚚
+# 🚚 EXPEDITION OOP 🚚
 
 Proyek ini merupakan implementasi nyata dari konsep Object-Oriented Programming (OOP) dalam bahasa Java. Dikembangkan sebagai bagian dari tugas Ujian Akhir, **EXPEDITIONOOP** menghadirkan solusi digital untuk pengelolaan ekspedisi dan pengiriman barang, dengan kode yang terstruktur, bersih, dan mudah dikembangkan. Proyek ini dirancang agar mahasiswa dapat memahami, menerapkan, dan mengeksplorasi prinsip-prinsip OOP secara komprehensif.
 
